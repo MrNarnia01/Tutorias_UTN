@@ -3,8 +3,8 @@ package clase_04_10;
 public class Auto extends Vehiculo{
     private int cpu;
 
-    public Auto(String den, String mar, int stock, int precio, int id, int cpu) {
-        super(den, mar, stock, precio, id);
+    public Auto(String den, String mar, int stock, int id, int cpu) {
+        super(den, mar, stock, id);
         this.cpu=cpu;
     }
 
@@ -21,10 +21,15 @@ public class Auto extends Vehiculo{
         String a = "\nVehiculo: Auto    -   Id: "+super.getId();
         a+=super.toString();
         a += "  C.Puertas:  "+cpu;
+        a += "  Precio:  "+precio();
         return a;
     }
     
-    
+    public int precio(){
+        int p=1000;
+        p=p+(1000*this.cpu);
+        return p;
+    }
     
     
     

@@ -18,6 +18,7 @@ public class FVehiculo extends javax.swing.JFrame {
     public static ArrayList<Vehiculo> vv = new ArrayList<>();
     private DefaultListModel mVehi = new DefaultListModel();
     public static int id;
+    public static int m=-1;
     /**
      * Creates new form FVehiculo
      */
@@ -32,7 +33,6 @@ public class FVehiculo extends javax.swing.JFrame {
         den.setText("");
         mar.setText("");
         st.setText("");
-        pre.setText("");
         cant.setText("");
     }
     
@@ -65,12 +65,10 @@ public class FVehiculo extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         c = new javax.swing.JLabel();
         den = new javax.swing.JTextField();
         mar = new javax.swing.JTextField();
         st = new javax.swing.JTextField();
-        pre = new javax.swing.JTextField();
         cant = new javax.swing.JTextField();
         cam = new javax.swing.JComboBox<>();
         regis = new javax.swing.JButton();
@@ -78,6 +76,7 @@ public class FVehiculo extends javax.swing.JFrame {
         list = new javax.swing.JList<>();
         total = new javax.swing.JButton();
         caro = new javax.swing.JButton();
+        mod = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,8 +85,6 @@ public class FVehiculo extends javax.swing.JFrame {
         jLabel2.setText("Marca:");
 
         jLabel3.setText("Stock:");
-
-        jLabel4.setText("Precio:");
 
         c.setText("C.Puertas:");
 
@@ -132,6 +129,13 @@ public class FVehiculo extends javax.swing.JFrame {
             }
         });
 
+        mod.setText("Modificar");
+        mod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,24 +145,20 @@ public class FVehiculo extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 837, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(pre))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(st, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                                    .addComponent(mar, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(st, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(mar, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(18, 18, 18)
-                                .addComponent(den, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(den, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -196,9 +196,8 @@ public class FVehiculo extends javax.swing.JFrame {
                     .addComponent(cant, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(pre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(total))
+                    .addComponent(total)
+                    .addComponent(mod))
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(74, Short.MAX_VALUE))
@@ -218,28 +217,38 @@ public class FVehiculo extends javax.swing.JFrame {
     }//GEN-LAST:event_camItemStateChanged
 
     private void regisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regisActionPerformed
+        
+        int idp = 0;
+        if(m!=-1){
+            idp = this.vv.get(m).getId()-1;
+        }else idp =id;
+        
         Vehiculo aux=null;
         if(cam.getSelectedItem().equals("Auto")){
            aux = new Auto(this.den.getText(), 
                    this.mar.getText(), 
                    Integer.parseInt(this.st.getText()), 
-                   Integer.parseInt(this.pre.getText()), 
-                   this.id, 
+                   idp, 
                    Integer.parseInt(this.cant.getText()));
             
        }else{
             aux = new Bici(this.den.getText(), 
                    this.mar.getText(), 
                    Integer.parseInt(this.st.getText()), 
-                   Integer.parseInt(this.pre.getText()), 
-                   this.id, 
+                   idp, 
                    Integer.parseInt(this.cant.getText()));
         }
         
-        id++;
+        if(m!=-1){
+            vv.remove(m);
+            m=-1;
+        }else id++;
+        
         vv.add(aux);
         limpiar();
         listado();
+        regis.setText("Registrar");
+        mod.setText("Modificar");
         
     }//GEN-LAST:event_regisActionPerformed
 
@@ -249,9 +258,9 @@ public class FVehiculo extends javax.swing.JFrame {
         for (int i = 0; i < vv.size(); i++) {
             
             if(vv.get(i)instanceof Auto){
-              impA+=vv.get(i).getStock()*vv.get(i).getPrecio();
+              impA+=vv.get(i).getStock()*vv.get(i).precio();
             }else{
-              impB+=vv.get(i).getStock()*vv.get(i).getPrecio();
+              impB+=vv.get(i).getStock()*vv.get(i).precio();
             }
         }
         JOptionPane.showMessageDialog(null, "Importe Total\nAutos:  "+impA+"\nBicis:    "+impB);
@@ -268,7 +277,7 @@ public class FVehiculo extends javax.swing.JFrame {
               if(ac==-1){
                   ac=i;
               }else{
-                  if(vv.get(i).getPrecio()>vv.get(ac).getPrecio())  ac=i;
+                  if(vv.get(i).precio()>vv.get(ac).precio())  ac=i;
               }
               
             }else{
@@ -276,7 +285,7 @@ public class FVehiculo extends javax.swing.JFrame {
               if(bc==-1){
                   bc=i;
               }else{
-                  if(vv.get(i).getPrecio()>vv.get(bc).getPrecio())  bc=i;
+                  if(vv.get(i).precio()>vv.get(bc).precio())  bc=i;
               }
               
             }
@@ -288,18 +297,45 @@ public class FVehiculo extends javax.swing.JFrame {
         if(ac==-1)  a+="No hay registro";
         else{
             for (int i = 0; i < vv.size(); i++) {
-                if(vv.get(i).getPrecio()==vv.get(ac).getPrecio() && vv.get(i)instanceof Auto)   a+=vv.get(i).toString();
+                if(vv.get(i).precio()==vv.get(ac).precio() && vv.get(i)instanceof Auto)   a+=vv.get(i).toString();
             }
         }
         a+="\nBici mas cara:    ";
         if(bc==-1)  a+="No hay registro";
         else{
             for (int i = 0; i < vv.size(); i++) {
-                if(vv.get(i).getPrecio()==vv.get(bc).getPrecio() && vv.get(i)instanceof Bici)   a+=vv.get(i).toString();
+                if(vv.get(i).precio()==vv.get(bc).precio() && vv.get(i)instanceof Bici)   a+=vv.get(i).toString();
             }
         }
         JOptionPane.showMessageDialog(null, a);
     }//GEN-LAST:event_caroActionPerformed
+
+    private void modActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modActionPerformed
+        if(!mod.getText().equals("Cancelar") && list.getSelectedIndex()!=-1){
+            
+            m = list.getSelectedIndex();
+            regis.setText("Modificar");
+            mod.setText("Cancelar");
+            
+            this.den.setText(vv.get(m).getDen());
+            this.mar.setText(vv.get(m).getMar());
+            this.st.setText(String.valueOf( vv.get(m).getStock() ));
+            
+            if(vv.get(m) instanceof Auto){
+                cam.setSelectedIndex(0);
+                this.cant.setText( String.valueOf( ((Auto)vv.get(m)).getCpu() ) );
+            }else{
+                cam.setSelectedIndex(1);
+                this.cant.setText( String.valueOf( ((Bici)vv.get(m)).getCb() ) );
+            }
+            
+        }else{
+            regis.setText("Registrar");
+            mod.setText("Modificar");
+            limpiar();
+        }
+        
+    }//GEN-LAST:event_modActionPerformed
 
     /**
      * @param args the command line arguments
@@ -335,11 +371,10 @@ public class FVehiculo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<String> list;
     private javax.swing.JTextField mar;
-    private javax.swing.JTextField pre;
+    private javax.swing.JButton mod;
     private javax.swing.JButton regis;
     private javax.swing.JTextField st;
     private javax.swing.JButton total;

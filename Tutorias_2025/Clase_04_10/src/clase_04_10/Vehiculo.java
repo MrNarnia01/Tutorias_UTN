@@ -8,19 +8,17 @@ package clase_04_10;
  *
  * @author narnia
  */
-public class Vehiculo {
+abstract public class Vehiculo {
     private int id;
     private String den;
     private String mar;
     private int st;
-    private int pre;
 
-    public Vehiculo(String den, String mar, int stock, int precio, int id) {
+    public Vehiculo(String den, String mar, int stock,int id) {
         this.id=id+1;
         this.den = den;
         this.mar = mar;
         this.st = stock;
-        this.pre = precio;
         
     }
 
@@ -56,25 +54,17 @@ public class Vehiculo {
         this.st = stock;
     }
 
-    public int getPrecio() {
-        return pre;
-    }
-
-    public void setPrecio(int precio) {
-        this.pre = precio;
-    }
-
+    
     @Override
     public String toString() {
         String a="Denominacion: "+den;
         a+="    Marca: "+mar;
         a+="    Stock: "+st;
-        a+="    Precio: "+pre;
         
         return a;
     }
     
-    
+    abstract public int precio();
     
     
     
