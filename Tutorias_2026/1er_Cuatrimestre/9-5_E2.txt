@@ -1,0 +1,155 @@
+/*
+    Clase: 9/5
+    Guia Estructuras iterativas - Ejercicio 6
+    
+    Aclaracion:
+    A este ejercicio se le agrego la dificultad de hacerlo con vectores y
+    al punto 1 y 2 del menu de opciones se le agrego mostrar la venta mayor y
+    menor de cada dia
+*/
+
+#include <iostream>
+using namespace std;
+
+int main(){
+    
+    int d=0;
+    int mon=0;
+    
+    int vc[7];
+    int vmay[7];
+    int vmen[7];
+    
+    for (int i = 0; i < 7; i++) {
+        vc[i]=0;
+        vmay[i]=0;
+        vmen[i]=0;
+    }
+    //Ingreso de datos
+    cout<<"\nIngrese el dia de la compra(1-7)(Con 0 termina): ";
+    cin>>d;
+    //Validacion del dia
+    while(d!=0){
+        if(d>0 && d<=7){
+            //Validacion del monto
+            do{
+                cout<<"\nIngrese el monto de esa compra: ";
+                cin>>mon;
+                if(mon<=0) cout<<"\nMonto invalido\n";
+            }while(mon<=0);
+            
+            vc[d-1]++;
+            //Mayor monto
+            if(vmay[d-1]==0)    vmay[d-1]=mon;
+            else if(vmay[d-1]<mon)  vmay[d-1]=mon;
+            //Menor monto
+            if(vmen[d-1]==0)    vmen[d-1]=mon;
+            else if(vmen[d-1]>mon)  vmen[d-1]=mon;
+            
+        }else   cout<<"\nDia invalido\n";
+        
+        cout<<"\nIngrese el dia de la compra(1-7)(Con 0 termina): ";
+        cin>>d;
+    }
+    
+    //Menu de opciones
+    do{
+        cout<<"\n\tMenu de opciones";
+        cout<<"\n1-Mayor monto cada dia y dia de mayor monto";
+        cout<<"\n2-Menor monto cada dia y dia de menor monto";
+        cout<<"\n3-Cantidad de compras por dia";
+        cout<<"\n4-Dias sin compras";
+        cout<<"\n5-Salir\n";
+        cin>>d;
+        
+        switch(d){
+            case 1:
+                cout<<"\nMayor monto: ";
+                cout<<"\nLunes: "<<vmay[0];
+                cout<<"\nMartes: "<<vmay[1];
+                cout<<"\nMiercoles: "<<vmay[2];
+                cout<<"\nJueves: "<<vmay[3];
+                cout<<"\nViernes: "<<vmay[4];
+                cout<<"\nSabado: "<<vmay[5];
+                cout<<"\nDomingo: "<<vmay[6];
+                
+                mon=0;
+                for (int i = 1; i < 7; i++) {
+                    if(vmay[mon]<vmay[i]) mon=i;
+                }
+                
+                cout<<"\nEl dia con la mayor venta fue el ";
+                switch(mon){
+                    case 0: cout<<"Lunes"; break;
+                    case 1: cout<<"Martes"; break;
+                    case 2: cout<<"Miercoles"; break;
+                    case 3: cout<<"Jueves"; break;
+                    case 4: cout<<"Viernes"; break;
+                    case 5: cout<<"Sabado"; break;
+                    case 6: cout<<"Domingo"; break;
+                }
+                cout<<" ,con un monto de: "<<vmay[mon];
+            break;
+            case 2:
+                cout<<"\nMenor monto: ";
+                cout<<"\nLunes: "<<vmen[0];
+                cout<<"\nMartes: "<<vmen[1];
+                cout<<"\nMiercoles: "<<vmen[2];
+                cout<<"\nJueves: "<<vmen[3];
+                cout<<"\nViernes: "<<vmen[4];
+                cout<<"\nSabado: "<<vmen[5];
+                cout<<"\nDomingo: "<<vmen[6];
+                
+                mon=0;
+                for (int i = 1; i < 7; i++) {
+                    if(vmen[mon]>vmen[i] && vmen[i]!=0) mon=i;
+                    else if(vmen[mon]==0) mon=i;
+                }
+                
+                cout<<"\nEl dia con la menor venta fue el ";
+                switch(mon){
+                    case 0: cout<<"Lunes"; break;
+                    case 1: cout<<"Martes"; break;
+                    case 2: cout<<"Miercoles"; break;
+                    case 3: cout<<"Jueves"; break;
+                    case 4: cout<<"Viernes"; break;
+                    case 5: cout<<"Sabado"; break;
+                    case 6: cout<<"Domingo"; break;
+                }
+                cout<<" ,con un monto de: "<<vmen[mon];
+            break;
+            case 3:
+                cout<<"\nCompras por dia: ";
+                cout<<"\nLunes: "<<vc[0];
+                cout<<"\nMartes: "<<vc[1];
+                cout<<"\nMiercoles: "<<vc[2];
+                cout<<"\nJueves: "<<vc[3];
+                cout<<"\nViernes: "<<vc[4];
+                cout<<"\nSabado: "<<vc[5];
+                cout<<"\nDomingo: "<<vc[6];
+            break;
+            case 4:
+                for (int i = 0; i < 7; i++) {
+                    if(vc[i]==0){
+                        cout<<"\nEl dia ";
+                        switch(i){
+                            case 0: cout<<"Lunes"; break;
+                            case 1: cout<<"Martes"; break;
+                            case 2: cout<<"Miercoles"; break;
+                            case 3: cout<<"Jueves"; break;
+                            case 4: cout<<"Viernes"; break;
+                            case 5: cout<<"Sabado"; break;
+                            case 6: cout<<"Domingo"; break;
+                        }
+                        cout<<" no hubo ventas";
+                    }
+                }
+            break;
+            case 5:
+            break;
+            default:
+                cout<<"\nOpcion invalida\n";
+        }
+    }while(d!=5);
+    return 0;
+}
