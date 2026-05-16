@@ -1,0 +1,20 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    
+    int n=0;
+    bool b=false;
+    
+    do{
+        cin>>n;
+        if(n==4){
+            b=true;
+        }
+    }while(n!=0);
+    
+    if(b)   cout<<"\nEscribio el 4";
+    else cout<<"\nNo lo escribio";
+    
+    return 0;
+}
