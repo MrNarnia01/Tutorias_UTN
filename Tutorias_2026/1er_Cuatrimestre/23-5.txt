@@ -1,0 +1,62 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+    
+    int n,m;
+    
+    do{
+        cout<<"Cant de notas Grupo A ";
+        cin>>n;
+    }while(n<1);
+    
+    int vA[n];
+    
+    for (int i = 0; i < n; i++) {
+        cout<<"\nPosicion "<<i+1<<endl;
+        cin>>vA[i];
+        if(vA[i]<0 || vA[i]>10) i--;
+    }
+    
+    
+    do{
+        cout<<"Cant de notas Grupo B ";
+        cin>>m;
+    }while(m<1);
+    
+    int vB[m];
+    
+    for (int i = 0; i < m; i++) {
+        cin>>vB[i];
+        if(vB[i]<0 || vB[i]>10) i--;
+    }
+    
+    int vF[m+n];
+    
+    int i=0;
+    int pm=0;
+    int pn=0;
+        
+    do{
+        if(pn<n){
+            vF[i]=vA[pn];
+            pn++;
+            i++;
+        }
+        if(pm<m){
+            vF[i]=vB[pm];
+            pm++;
+            i++;
+        }
+    }while(i<m+n);
+    
+    for (int i = 0; i < m+n; i++) {
+        cout<<"\n"<<vF[i];
+    }
+    
+    
+    
+    
+
+    return 0;
+}
