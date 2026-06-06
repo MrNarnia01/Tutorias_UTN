@@ -1,0 +1,39 @@
+/*
+    Ejemplo matriz de conteo
+*/
+
+#include <iostream>
+using namespace std;
+
+
+
+int main(){
+    
+    int ma[4][2];
+    for (int i = 0; i < 4; i++) for (int j = 0; j < 2; j++) ma[i][j]=0; 
+    
+    for (int i = 0; i < 4; i++) {
+        cout<<"\nCurso: "<<i+1;
+        cin>>ma[i][0];
+        cout<<"\nTurno: "<<i+1;
+        cin>>ma[i][1];
+    }
+    
+    int mc[3][2];
+    for (int i = 0; i < 3; i++) for (int j = 0; j < 2; j++) mc[i][j]=0;
+    
+    for (int i = 0; i < 4; i++) {
+        mc[ ma[i][0]-1 ][ ma[i][1]-1 ]++;
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        cout<<"\n";
+        for (int j = 0; j < 2; j++) {
+            cout<<mc[i][j]<<"\t";
+        }
+    }
+    
+    
+
+    return 0;
+}

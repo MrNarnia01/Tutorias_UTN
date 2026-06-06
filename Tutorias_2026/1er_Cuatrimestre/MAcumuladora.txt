@@ -1,0 +1,41 @@
+/*
+    Ejemplo matriz acumuladora
+*/
+
+#include <iostream>
+using namespace std;
+
+
+
+int main(){
+    
+    int ma[4][3];
+    for (int i = 0; i < 4; i++) for (int j = 0; j < 3; j++) ma[i][j]=0; 
+    
+    for (int i = 0; i < 4; i++) {
+        cout<<"\nSucursal: "<<i+1<<endl;
+        cin>>ma[i][0];
+        cout<<"\nTurno: "<<i+1<<endl;
+        cin>>ma[i][1];
+        cout<<"\nMonto de la venta: "<<i+1<<endl;
+        cin>>ma[i][2];
+    }
+    
+    int mc[3][2];
+    for (int i = 0; i < 3; i++) for (int j = 0; j < 2; j++) mc[i][j]=0;
+    
+    for (int i = 0; i < 4; i++) {
+        mc[ ma[i][0]-1 ][ ma[i][1]-1 ]+=ma[i][2];
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        cout<<"\n";
+        for (int j = 0; j < 2; j++) {
+            cout<<mc[i][j]<<"\t";
+        }
+    }
+    
+    
+
+    return 0;
+}
