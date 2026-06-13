@@ -1,0 +1,236 @@
+//Ejercicio 3 Guia de matrices
+#include <iostream>
+using namespace std;
+
+int v[50][4];
+int n;
+
+void regis(int i,int ex);
+void er();
+void mos(int i);
+int bus();
+void dec();
+void mat();
+int main(){
+    
+    int op=0;
+    int aux=0;
+    int con=0;
+    
+    for (int i = 0; i < 50; i++)    for (int j = 0; j < 4; j++)    v[i][j]=0;
+        
+    do{
+        cout<<"\nIngrese cantidad de expedientes(1-50): ";
+        cin>>n;
+        if(n<1 || n>50) er();
+    }while(n<1 || n>50);
+    
+    for (int i = 0; i < n; i++)     regis(i,i+555);
+    for (int i = 0; i < n; i++)     mos(i);
+    
+    //Menu de opciones
+    do{
+        cout<<"\n\tMenu de opciones";
+        cout<<"\n1-Obra de mayor MC en el centro-";
+        cout<<"\n2-Matriz-";
+        cout<<"\n3-Buscar exp-";
+        cout<<"\n4-Viviendas por Z y O-";
+        cout<<"\n5-Modificar exp-";
+        cout<<"\n6-Listado decreciente X MC-";
+        cout<<"\n7-Eliminar exp-";
+        cout<<"\n8-Salir-\n";
+        cin>>op;
+        switch(op){
+            case 1:
+                op=-1;
+                for (int i = 0; i < n; i++) {
+                    if(v[i][2]==0){
+                        if(op==-1){
+                            op=i;
+                        }else if(v[op][3]<v[i][3]){
+                            op=i;
+                        }
+                    }
+                }
+                
+                if(op==-1){
+                    cout<<"\nNo hay exp. en el centro";
+                }else{
+                    mos(op);
+                }
+                
+            break;
+            case 2:
+                mat();
+            break;
+            case 3:
+                op=bus();
+                if(op==-1) er();
+                else mos(op);
+            break;
+            case 4:
+                con=0;
+                cout<<"\nIngrese zona y obra";
+                cin>>op;//Zona
+                cin>>aux;//Obra
+                
+                for (int i = 0; i < n; i++) {
+                    if(v[i][1]==aux && v[i][2]==op){
+                        con++;
+                    }
+                }
+                
+                cout<<"\nCantidas de exp coincidentes: "<<con;
+                
+            break;
+            case 5:
+                op=bus();
+                if(op==-1) er();
+                else{
+                    regis(op,v[op][0]);
+                }
+            break;
+            case 6:
+                dec();
+            break;
+            case 7:
+                op=bus();
+                if(op==-1) er();
+                else{
+                    n--;
+                    for (int i = op; i < n; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            v[op][j]=v[op+1][j];
+                        }
+                    }
+                    for (int i = 0; i < n; i++)     mos(i);
+                }
+            break;
+            case 8:
+            break;
+            default:
+                er();
+        }
+    }while(op!=8);
+    
+    return 0;
+}
+
+void er(){
+    cout<<"\nERROR\n";
+}
+
+void regis(int i, int ex){
+    //Codigo autoincremental
+    v[i][0]=ex;
+    int c;
+    
+    cout<<"\n\tExp. Numero "<<v[i][0];
+    
+    //Tipo de obra
+    do{
+        cout<<"\nQue tipo de obra?\n0-Vivienda basica\n1-Edificio\n2-Predio\n";
+        cin>>c;
+        if(c<0 || c>2) er();
+    }while(c<0 || c>2);
+    v[i][1]=c;
+    
+    //Zona
+    do{
+        cout<<"\nQue tipo zona?\n0-Centro\n1-Afueras\n2-Barrio cercano\n";
+        cin>>c;
+        if(c<0 || c>2) er();
+    }while(c<0 || c>2);
+    v[i][2]=c;
+    
+    //MC
+    do{
+        cout<<"\nCuantos metros cuadrados: ";
+        cin>>c;
+        if(c<=0) er();
+    }while(c<=0);
+    v[i][3]=c;
+}
+
+void mos(int i){
+    cout<<"\nExp: "<<v[i][0];
+    
+    cout<<"\tObra: ";
+    switch(v[i][1]){
+        case 0:
+            cout<<"Basica";
+        break;
+        case 1:
+            cout<<"Edificio";
+        break;
+        case 2:
+            cout<<"Predio";
+        break;
+    }
+    
+    cout<<"\tZona: ";
+    switch(v[i][2]){
+        case 0:
+            cout<<"Centro";
+        break;
+        case 1:
+            cout<<"Afueras";
+        break;
+        case 2:
+            cout<<"B.Cercano";
+        break;
+    }
+    
+    cout<<"\tMC: "<<v[i][3];
+}
+
+int bus(){
+    int p=-1;
+    int b=0;
+    cout<<"\nIngrese el expediente a buscar: ";
+    cin>>b;
+    for (int i = 0; i<n && p==-1; i++)    if(b==v[i][0]) p=i;
+    
+    return p;
+}
+
+void dec(){
+    int aux=0;
+    
+    for (int i = 0; i < n-1; i++) {
+        for (int j = i+1; j < n; j++) {
+            
+            if(v[i][3]<v[j][3]){
+                for (int k = 0; k < 4; k++) {
+                    aux=v[i][k];
+                    v[i][k]=v[j][k];
+                    v[j][k]=aux;
+                }
+            }
+            
+        }
+    }
+    for (int i = 0; i < n; i++)     mos(i);
+}
+
+void mat(){
+    int m[3][3];
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            m[i][j]=0;
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        m[ v[i][1] ][ v[i][2] ]++;
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        cout<<endl;
+        for (int j = 0; j < 3; j++) {
+            cout<<"\t"<<m[i][j];
+        }
+    }
+    
+}
+
