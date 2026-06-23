@@ -1,0 +1,178 @@
+#include <iostream>
+using namespace std;
+
+int v[10][5];
+int n;
+
+void regis(int cod, int p);
+void mos(int p);
+void ord();
+int bus();
+void elm(int p);
+void mat();
+int main(){
+    //Limpieza de vector
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 5; j++) {
+            v[i][j]=0;
+        }
+    }
+        
+    int op;
+    do{
+        cout<<"\nIngrese la cantidad de reservas (1-10)\n";
+        cin>>n;
+    }while(n<1 || n>10);
+    
+    for (int i=0; i<n; i++) {
+        regis(i+100,i);
+    }
+    
+    op=0;
+    do{
+        cout<<"\n1-Listado por cancha";
+        cout<<"\n2-Matriz";
+        cout<<"\n3-Eliminar reserva";
+        cout<<"\n4-Salir\n";
+        cin>>op;
+        switch(op){
+            case 1:
+                ord();
+                cout<<"\nFutbol:\n";
+                for (int i=0; i<n; i++) {
+                    if(v[i][1]==1){
+                        mos(i);
+                    }
+                }
+                cout<<"\nTenis:\n";
+                for (int i=0; i<n; i++) {
+                    if(v[i][1]==2){
+                        mos(i);
+                    }
+                }
+                cout<<"\nPadel:\n";
+                for (int i=0; i<n; i++) {
+                    if(v[i][1]==3){
+                        mos(i);
+                    }
+                }
+            break;
+            case 2:
+                mat();
+            break;
+            case 3:
+                op=bus();
+                if(op!=-1){
+                    if(v[op][4]==3 || v[op][3]==1){
+                        elm(op);
+                    }else cout<<"No se puede eliminar";
+                }else cout<<"\nNo encontrado\n";
+            break;
+        }
+    }while(op!=4);
+    
+    return 0;
+}
+
+void regis(int cod, int p){
+    v[p][0]=cod;
+    int a=0;
+    int lim=0;//Limite de tiempo de reserva
+    //Tipo de chancha
+    do{
+        cout<<"\nCancha:\n\t1-Futbol\n\t2-Tenis\n\t3-Padel\n";
+        cin>>a;
+    }while(a<1 || a>3);
+    v[p][1]=a;
+    //Turno
+    do{
+        cout<<"\nTurno:\n\t1-Mañana\n\t2-Tarde\n\t3-Noche\n";
+        cin>>a;
+    }while(a<1 || a>3);
+    v[p][2]=a;
+    //Horas
+    if(v[p][1]==1) lim=3;
+    else if(v[p][1]==2) lim=2;
+    else lim=4;
+    do{
+        cout<<"\nHoras reservadas(Maximo: "<<lim<<"):\n";
+        cin>>a;
+    }while(a<1 || a>lim);
+    v[p][3]=a;
+    //Estado
+    do{
+        cout<<"\nEstado:\n\t1-Activa\n\t2-Finalizada\n\t3-Cancelada\n";
+        cin>>a;
+    }while(a<1 || a>3);
+    v[p][4]=a;
+}
+
+void mos(int p){
+    cout<<"\nCod: "<<v[p][0];
+    cout<<"\tCancha: "<<v[p][1];
+    cout<<"\tTurno: "<<v[p][2];
+    cout<<"\tHoras: "<<v[p][3];
+    cout<<"\tEstado: "<<v[p][4];
+}
+
+void ord(){
+    int aux;
+    for (int i=0; i<n-1; i++) {
+        for (int j=i+1; j<n; j++) {
+            if(v[i][3]>v[j][3]){
+                for (int k=0; k<5; k++) {
+                    aux=v[i][k];
+                    v[i][k]=v[j][k];
+                    v[j][k]=aux;
+                }
+            }
+        }
+    }
+    
+}
+
+int bus(){
+    int bus;
+    int p=-1;
+    cout<<"\nIngrese el codigo a buscar\n";
+    cin>>bus;
+    for (int i = 0; i < n; i++) {
+        if(bus==v[i][0]){
+            p=i;
+        }
+    }
+    return p;
+}
+
+void elm(int p){
+    for (int i = p; i < n-1; i++) {
+        for (int k = 0; k < 5; k++) {
+            v[i][k]=v[i+1][k];
+        }
+    }
+    n--;
+}
+
+void mat(){
+    int mat[3][3];
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            mat[i][j]=0;
+        }
+    }
+
+    //Matriz mat[Cancha][Turno]
+    //Fila Cancha
+    //Columna Turno
+    for (int i = 0; i < n; i++) {
+        mat[v[i][1]-1][v[i][2]-1]+=v[i][3];
+    }
+    //Muestreo
+    for (int i = 0; i < 3; i++) {
+        cout<<"\n";
+        for (int j = 0; j < 3; j++) {
+            cout<<"\t"<<mat[i][j];
+        }
+    }
+
+}
