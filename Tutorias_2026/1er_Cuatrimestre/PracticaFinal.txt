@@ -1,0 +1,157 @@
+#include <iostream>
+using namespace std;
+
+int n;
+int v[10][6];
+
+void mos(int p);
+int pFinal(int p);
+void ord();
+void mat();
+int main(){
+    int op;
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 6; j++) {
+            v[i][j]=0;
+        }
+    }
+    
+    cout<<"Ingrese la cantidad de ventas\n";
+    cin>>n;
+    
+    int maa[30][3];
+    for (int i = 0; i < 30; i++) {
+        for (int j = 0; j < 3; j++) {
+            maa[i][j]=0;
+        }
+    }
+    
+    //Registro
+    for (int i = 0; i < n; i++) {
+        v[i][0]=100+i;
+        cout<<"\nFactura "<<v[i][0];
+        
+        cout<<"\nIngrese el dia(1-30): ";
+        cin>>v[i][1];
+        
+        cout<<"\nIngrese el articulo(1-3): ";
+        cin>>v[i][2];
+        
+        cout<<"\nIngrese la cantidad del articulo: ";
+        cin>>v[i][5];
+        
+        if( maa[v[i][1]-1][v[i][2]-1]+v[i][5]>30 ){
+            cout<<"\nError articulos insuficientes";
+            i--;
+        }else{
+            maa[v[i][1]-1][v[i][2]-1]+=v[i][5];
+            
+            cout<<"\nPrecio unitario del articulo: ";
+            cin>>v[i][4];
+            
+            cout<<"\nForma de pago: ";
+            cin>>v[i][3];
+            
+            mos(i);
+        }
+    }
+    
+    //Menu de opciones
+    do{
+        cout<<"\nMenu";
+        cout<<"\n1-Listado decreciente";
+        cout<<"\n2-Matriz";
+        cout<<"\n3-Salir\n";
+        cin>>op;
+        
+        switch(op){
+            case 1:
+                ord();
+                for (int i = 0; i < n; i++) {
+                    mos(i);
+                }
+            break;
+            case 2:
+                mat();
+            break;
+        }
+    
+    }while(op!=3);
+
+    return 0;
+}
+
+void mos(int p){
+    cout<<"\nFactura: "<<v[p][0];
+    cout<<"\tDia: "<<v[p][1];
+    cout<<"\tArt.: "<<v[p][2];
+    cout<<"\tF.Pago: "<<v[p][3];
+    cout<<"\tPre: "<<v[p][4];
+    cout<<"\tCant: "<<v[p][5];
+    cout<<"\tP.Final: "<<pFinal(p);
+}
+
+int pFinal(int p){
+    int pb=v[p][4]*v[p][5];
+    int pf;
+    
+    if(v[p][3]==1)    pf=pb-( (pb*15)/100 );
+    else    pf=pb+( (pb*10)/100 );
+    
+    return pf;
+    
+}
+
+void ord(){
+    int aux;
+    for (int i = 0; i < n-1; i++) {
+        for (int j = i+1; j < n; j++) {
+            if( pFinal(i)<pFinal(j) ){
+                
+                for (int k = 0; k < 6; k++) {
+                    aux=v[i][k];
+                    v[i][k]=v[j][k];
+                    v[j][k]=aux;
+                }
+                
+            }
+        }
+    }
+}
+
+void mat(){
+    int m[2][30];
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 30; j++) {
+            m[i][j]=0;
+        }
+    }
+    
+    for (int i = 0; i < n; i++) {
+        m[ v[i][3]-1 ][ v[i][1]-1 ]+=pFinal(i);
+    }
+    
+    for (int i = 0; i < 30; i++) {
+        cout<<"\nDia: "<<i+1;
+        cout<<"\tCont: "<<m[0][i];
+        cout<<"\tTar: "<<m[1][i];
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
